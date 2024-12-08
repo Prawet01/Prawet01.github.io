@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512x512.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบคัดถ่ายเอกสารออนไลน์</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        iframe {
+            display: block;
+            width: 100vw; /* เต็มความกว้างของหน้าจอ */
+            height: 100vh; /* เต็มความสูงของหน้าจอ */
+            border: none; /* ไม่มีขอบ */
+        }
+        .popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none; /* ซ่อนป๊อปอัปเริ่มต้น */
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .popup-content {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #installButton {
+        margin: 10px;
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #installButton:hover {
+        background-color: #0056b3;
+    }
+
+    #closePopup {
+        margin: 10px;
+        padding: 10px 20px;
+        background-color: #DC3545;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #closePopup:hover {
+        background-color: #a71d2a;
+    }
+    </style>
+</head>
+<body>
+    <iframe src="https://www.appsheet.com/start/31bfec3a-c990-4470-8979-85991c4e1a8f#appName=%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%94%E0%B8%B4%E0%B8%99%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%A7%E0%B8%A83%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%8A%E0%B8%B2%E0%B8%A7%E0%B8%9A%E0%B9%89%E0%B8%B2%E0%B8%99-1238033&view=%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B9%81%E0%B8%A3%E0%B8%81"></iframe>
+    <div id="installPopup" class="popup">
+        <div class="popup-content">
+            <img src="123Year.png"width="40%" height="23%"/>
+            <p>กดคำว่าติดตั้ง เพื่อติดตั้งเว็บนี้ให้เป็นแอปพลิเคชั่นหรือโปรแกรมในคอมพิวเตอร์(ไม่บังคับ)</p>
+            <button id="installButton">ติดตั้ง</button>
+            <button id="closePopup">ปิด(ไม่ต้องการติดตั้ง)</button>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    let deferredPrompt;
+
+    // จับเหตุการณ์ 'beforeinstallprompt'
+    window.addEventListener('beforeinstallprompt', (event) => {
+        // ป้องกันเบราว์เซอร์แสดงหน้าต่างติดตั้งโดยอัตโนมัติ
+        event.preventDefault();
+        deferredPrompt = event;
+
+        // แสดงป๊อปอัป
+        const popup = document.getElementById('installPopup');
+        popup.style.display = 'flex';
+
+        // เมื่อคลิกปุ่มติดตั้ง
+        const installButton = document.getElementById('installButton');
+        installButton.addEventListener('click', () => {
+            popup.style.display = 'none'; // ซ่อนป๊อปอัป
+            deferredPrompt.prompt(); // เรียกหน้าต่างติดตั้ง
+
+            // ตรวจสอบผลลัพธ์การติดตั้ง
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                } else {
+                    console.log('User dismissed the install prompt');
+                }
+                deferredPrompt = null;
+            });
+        });
+
+        // เมื่อคลิกปุ่มปิด
+        const closeButton = document.getElementById('closePopup');
+        closeButton.addEventListener('click', () => {
+            popup.style.display = 'none'; // ซ่อนป๊อปอัป
+        });
+    });
+</script>
