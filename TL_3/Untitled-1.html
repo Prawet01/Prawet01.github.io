@@ -1,0 +1,34 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open New Window Example</title>
+    <script>
+        // ฟังก์ชันเปิดหน้าต่างใหม่
+        function MM_openBrWindow(theURL, winName, features) {
+            window.open(theURL, winName, features);
+        }
+
+        // ฟังก์ชันแสดงข้อความแจ้งเตือน
+        function MM_popupMsg(msg) {
+            alert(msg);
+        }
+    </script>
+</head>
+<body>
+    <!-- เมนู -->
+    <div class="menu">
+        <div class="menu-items">
+            <a href="#" onclick="MM_openBrWindow('https://www.google.com', 'GoogleWindow', 'width=800,height=600')">
+                เปิด Google ในหน้าต่างใหม่
+            </a>
+            <a href="#" onclick="MM_openBrWindow('https://www.wikipedia.org', 'WikipediaWindow', 'width=1000,height=700')">
+                เปิด Wikipedia ในหน้าต่างใหม่
+            </a>
+            <a href="#" onclick="MM_popupMsg('Hello! This is a popup message.')">
+                แสดงข้อความแจ้งเตือน
+            </a>
+        </div>
+    </div>
+</body>
+</html>
